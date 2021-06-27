@@ -2,9 +2,10 @@ import { StatusBar } from 'expo-status-bar';
 
 import React, { useState } from 'react';
 import { StyleSheet, Text, SafeAreaView, View, Modal, Pressable } from 'react-native';
-import AddItem from './components/AddItem/AddItem';
+import Header from './components/Header/Header';
+import Card from './components/Card/Card';
 import ItemList from './components/ItemList/ItemList';
-import ConfirmModal from './components/ConfirmModal/ConfirmModal';
+import ProductsScreen from './screens/ProductsScreen';
 
 export default function App() {
   const [inputValue, setInputValue] = useState('');
@@ -37,27 +38,14 @@ export default function App() {
   };
 
   return (
-    <SafeAreaView style={[styles.container, styles.androidSafeArea]}>
-      <ConfirmModal
-        title={selectedItem.value}
-        text='¿Esta seguro que desea eliminar el item?'
-        modalVisible={modalVisible}
-        setModalVisible={setModalVisible}
-        handleDeleteItem={handleDeleteItem}
-      />
-      <AddItem value={inputValue} onChangeText={setInputValue} handleAddItem={handleAddItem} />
-      <ItemList itemList={itemList} handleConfirmDelete={handleConfirmDelete} />
+    <SafeAreaView style={styles.appContainer}>
+      <Header title='App' />
+      <ProductsScreen />
       <StatusBar style='auto' />
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#CEE5D0',
-  },
-  androidSafeArea: {
-    paddingTop: Platform.OS === 'android' ? 30 : 0,
-  },
+  appContainer: {},
 });
