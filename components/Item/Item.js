@@ -1,80 +1,60 @@
 import React, { useState } from 'react';
 
-import { View, Text, StyleSheet, TouchableOpacity, Pressable } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import Card from '../Card/Card';
+const Item = ({ id, name, price, handleAddCartItem }) => {
+  const [itemQuantity, setItemQuantity] = useState(0);
 
-const Item = ({ id, value, handleConfirmDelete }) => {
-  const [itemComplete, setItemComplete] = useState(false);
-
-  const touchStyles = {
-    backgroundColor: itemComplete ? '#BEF202' : '#CEE5D0',
-  };
-
-  const buttonTouchStyles = {
-    backgroundColor: itemComplete ? '#519548' : '#a5c7a9',
-  };
-
-  const textTouchStyles = {
-    color: itemComplete ? '#f8f5f1' : '#000',
-    fontWeight: itemComplete ? '600' : '800',
-  };
-
-  const handleItemComplete = () => {
-    setItemComplete(!itemComplete);
+  const handleItemQuantity = (quantity) => {
+    if (quantity >= 0) {
+      setItemQuantity(quantity);
+      handleAddCartItem({ id, name, price, quantity });
+    }
   };
 
   return (
-    <Pressable onPress={handleItemComplete} style={styles.container}>
-      <View style={[styles.item, touchStyles]}>
-        <Text style={styles.itemText}>{value}</Text>
-        <TouchableOpacity
-          style={[styles.deleteButton, buttonTouchStyles]}
-          onPress={() => handleConfirmDelete({ id, value })}>
-          <Text style={[styles.deleteButtonText, textTouchStyles]}>X</Text>
+    <Card style={styles.container}>
+      <View>
+        <Text>{name}</Text>
+        <Text>$ {price}</Text>
+      </View>
+      <View style={styles.itemControlsContainer}>
+        <TouchableOpacity style={styles.button} onPress={() => handleItemQuantity(itemQuantity - 1)}>
+          <Text>-</Text>
+        </TouchableOpacity>
+        <Text style={styles.itemCount}>{itemQuantity}</Text>
+        <TouchableOpacity style={styles.button} onPress={() => handleItemQuantity(itemQuantity + 1)}>
+          <Text>+</Text>
         </TouchableOpacity>
       </View>
-    </Pressable>
+    </Card>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    alignSelf: 'center',
-    width: '100%',
-  },
-  item: {
-    width: '90%',
-    height: 50,
     flexDirection: 'row',
-    backgroundColor: '#CEE5D0',
+    alignItems: 'center',
     justifyContent: 'space-between',
-    alignItems: 'center',
     padding: 10,
-    marginVertical: 10,
-    borderRadius: 15,
-    alignSelf: 'center',
+    margin: 10,
+    height: 80,
   },
-  itemText: {
-    fontSize: 18,
-    fontWeight: '300',
-    marginStart: 10,
-  },
-  deleteButton: {
-    backgroundColor: '#a5c7a9',
-    width: 40,
-    height: '100%',
+  itemControlsContainer: {
+    flexDirection: 'row',
+    padding: 10,
     alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: 10,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 2,
-      height: 2,
-    },
-    shadowOpacity: 0.2,
-    shadowRadius: 2,
   },
-  deleteButtonText: {
-    fontWeight: '800',
+  button: {
+    borderRadius: 10,
+    borderColor: 'black',
+    borderWidth: 1,
+    padding: 5,
+    width: 30,
+    alignItems: 'center',
+  },
+  itemCount: {
+    padding: 10,
   },
 });
 

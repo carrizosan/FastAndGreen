@@ -1,46 +1,37 @@
 import { StatusBar } from 'expo-status-bar';
 
 import React, { useState } from 'react';
-import { StyleSheet, Text, SafeAreaView, View, Modal, Pressable } from 'react-native';
 import Header from './components/Header/Header';
-import Card from './components/Card/Card';
-import ItemList from './components/ItemList/ItemList';
 import ProductsScreen from './screens/ProductsScreen';
+import CartScreen from './screens/CartScreen';
+import { StyleSheet, Text, SafeAreaView, View, Modal, Pressable } from 'react-native';
+import { products } from './mocks/products';
 
 export default function App() {
-  const [inputValue, setInputValue] = useState('');
-  const [itemList, setItemList] = useState([]);
-  const [selectedItem, setSelectedItem] = useState({});
-  const [modalVisible, setModalVisible] = useState(false);
+  const [cartItems, setCartItems] = useState([]);
+  const [showCart, setShowCart] = useState(false);
 
-  const handleAddItem = () => {
-    if (inputValue.trim().length > 0) {
-      setItemList([
-        ...itemList,
-        {
-          id: Math.random().toString(),
-          value: inputValue,
-        },
-      ]);
-      setInputValue('');
+  const handleAddCartItem = (item) => {
+    const filteredCart = cartItems.filter((element) => element.id !== item.id);
+
+    if (item.quantity === 0) {
+      setCartItems(filteredCart);
+    } else {
+      setCartItems([...filteredCart, item]);
     }
   };
+  let headerTitle = showCart ? 'Carrito' : 'Productos';
 
-  const handleDeleteItem = () => {
-    setItemList(itemList.filter((item) => item.id !== selectedItem.id));
-    setSelectedItem({});
-    setModalVisible(false);
-  };
+  let screen = <ProductsScreen handleAddCartItem={handleAddCartItem} products={products} />;
 
-  const handleConfirmDelete = (item) => {
-    setSelectedItem(item);
-    setModalVisible(true);
-  };
+  if (showCart) {
+    screen = <CartScreen cartItems={cartItems} handleShowCartScreen={setShowCart} setCartItems={setCartItems} />;
+  }
 
   return (
     <SafeAreaView style={styles.appContainer}>
-      <Header title='App' />
-      <ProductsScreen />
+      <Header title={headerTitle} itemsQuantity={cartItems.length} handleShowCartScreen={setShowCart} />
+      {screen}
       <StatusBar style='auto' />
     </SafeAreaView>
   );

@@ -1,11 +1,20 @@
 import React from 'react';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
-import { StyleSheet, Text, View } from 'react-native';
+import { FontAwesome5 } from '@expo/vector-icons';
+const Header = ({ title, itemsQuantity, handleShowCartScreen }) => {
+  const cart = (
+    <TouchableOpacity onPress={() => handleShowCartScreen(true)}>
+      <FontAwesome5 name='shopping-cart' size={24} color='black' />
+    </TouchableOpacity>
+  );
 
-const Header = ({ title }) => {
+  const showCart = itemsQuantity ? cart : null;
+
   return (
     <View style={styles.header}>
       <Text style={styles.headerTitle}>{title}</Text>
+      {showCart}
     </View>
   );
 };
@@ -17,7 +26,9 @@ const styles = StyleSheet.create({
     paddingTop: Platform.OS === 'android' ? 36 : 0,
     backgroundColor: 'green',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'space-between',
+    flexDirection: 'row',
+    paddingHorizontal: 30,
   },
   headerTitle: {
     color: 'black',

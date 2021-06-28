@@ -1,24 +1,15 @@
 import React from 'react';
-import Card from '../components/Card/Card';
-
-import { products } from '../mocks/products';
+import Item from '../components/Item/Item';
 import { StyleSheet, View, Text, TouchableOpacity, FlatList, ScrollView } from 'react-native';
 
-const ProductsScreen = () => {
+const ProductsScreen = ({ handleAddCartItem, products }) => {
   return (
     <ScrollView>
       <View style={styles.container}>
         <FlatList
           style={styles.flatList}
           data={products}
-          renderItem={(data) => (
-            <TouchableOpacity style={styles.cardContainer}>
-              <Card style={styles.card}>
-                <Text>{data.item.name}</Text>
-                <Text>$ {data.item.price}</Text>
-              </Card>
-            </TouchableOpacity>
-          )}
+          renderItem={(data) => <Item {...data.item} handleAddCartItem={handleAddCartItem} />}
           keyExtractor={(item) => item.id}></FlatList>
       </View>
     </ScrollView>
