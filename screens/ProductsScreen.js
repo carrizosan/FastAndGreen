@@ -1,6 +1,6 @@
 import React from 'react';
 import Item from '../components/Item/Item';
-import { StyleSheet, View, Text, TouchableOpacity, FlatList, ScrollView } from 'react-native';
+import { StyleSheet, View, FlatList, ScrollView } from 'react-native';
 
 const ProductsScreen = ({ handleAddCartItem, products }) => {
   return (
@@ -27,18 +27,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     flexDirection: 'row',
     flexWrap: 'wrap',
-  },
-  cardContainer: {
-    width: '100%',
-    height: 100,
-    marginVertical: 10,
-    alignItems: 'center',
-  },
-  card: {
-    width: '90%',
-    height: 100,
-    justifyContent: 'center',
-    alignItems: 'center',
   },
 });
 

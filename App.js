@@ -1,15 +1,23 @@
-import { StatusBar } from 'expo-status-bar';
-
 import React, { useState } from 'react';
 import Header from './components/Header/Header';
 import ProductsScreen from './screens/ProductsScreen';
 import CartScreen from './screens/CartScreen';
-import { StyleSheet, Text, SafeAreaView, View, Modal, Pressable } from 'react-native';
+import AppLoading from 'expo-app-loading';
+
+import { useFonts } from 'expo-font';
+import { StatusBar } from 'expo-status-bar';
+import { SafeAreaView } from 'react-native';
 import { products } from './mocks/products';
 
 export default function App() {
   const [cartItems, setCartItems] = useState([]);
   const [showCart, setShowCart] = useState(false);
+
+  const [dataLoaded] = useFonts({
+    Manrope: require('./assets/fonts/Manrope-Medium.ttf'),
+    'Manrope-Light': require('./assets/fonts/Manrope-Light.ttf'),
+    'Manrope-Bold': require('./assets/fonts/Manrope-Bold.ttf'),
+  });
 
   const handleAddCartItem = (item) => {
     const filteredCart = cartItems.filter((element) => element.id !== item.id);
@@ -28,6 +36,10 @@ export default function App() {
     screen = <CartScreen cartItems={cartItems} handleShowCartScreen={setShowCart} setCartItems={setCartItems} />;
   }
 
+  if (!dataLoaded) {
+    return <AppLoading />;
+  }
+
   return (
     <SafeAreaView style={styles.appContainer}>
       <Header title={headerTitle} itemsQuantity={cartItems.length} handleShowCartScreen={setShowCart} />
@@ -36,7 +48,3 @@ export default function App() {
     </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-  appContainer: {},
-});

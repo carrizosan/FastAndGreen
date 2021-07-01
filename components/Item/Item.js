@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 import Card from '../Card/Card';
+import CustomButton from '../Button/Button';
+
 const Item = ({ id, name, price, handleAddCartItem }) => {
   const [itemQuantity, setItemQuantity] = useState(0);
 
@@ -14,18 +16,14 @@ const Item = ({ id, name, price, handleAddCartItem }) => {
 
   return (
     <Card style={styles.container}>
-      <View>
-        <Text>{name}</Text>
-        <Text>$ {price}</Text>
+      <View style={styles.productInfo}>
+        <Text style={styles.productName}>{name}</Text>
+        <Text style={styles.productPrice}>$ {price}</Text>
       </View>
       <View style={styles.itemControlsContainer}>
-        <TouchableOpacity style={styles.button} onPress={() => handleItemQuantity(itemQuantity - 1)}>
-          <Text>-</Text>
-        </TouchableOpacity>
+        <CustomButton style={styles.button} onPress={() => handleItemQuantity(itemQuantity - 1)} text='-' />
         <Text style={styles.itemCount}>{itemQuantity}</Text>
-        <TouchableOpacity style={styles.button} onPress={() => handleItemQuantity(itemQuantity + 1)}>
-          <Text>+</Text>
-        </TouchableOpacity>
+        <CustomButton style={styles.button} onPress={() => handleItemQuantity(itemQuantity + 1)} text='+' />
       </View>
     </Card>
   );
@@ -40,17 +38,29 @@ const styles = StyleSheet.create({
     margin: 10,
     height: 80,
   },
+  productInfo: {
+    width: '60%',
+    height: '100%',
+    padding: 5,
+    justifyContent: 'space-between',
+  },
+  productName: {
+    fontSize: 16,
+    fontFamily: 'Manrope',
+  },
+  productPrice: {
+    fontWeight: '600',
+  },
   itemControlsContainer: {
+    width: '40%',
     flexDirection: 'row',
-    padding: 10,
     alignItems: 'center',
+    justifyContent: 'flex-end',
   },
   button: {
     borderRadius: 10,
-    borderColor: 'black',
-    borderWidth: 1,
-    padding: 5,
-    width: 30,
+    padding: 10,
+    width: 35,
     alignItems: 'center',
   },
   itemCount: {

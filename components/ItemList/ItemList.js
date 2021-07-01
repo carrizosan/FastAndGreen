@@ -1,5 +1,5 @@
 import React from 'react';
-import { FlatList, StyleSheet, View, TouchableOpacity, Text } from 'react-native';
+import { FlatList, StyleSheet, View } from 'react-native';
 import Item from '../Item/Item';
 
 const ItemList = ({ itemList, handleConfirmDelete }) => {

@@ -1,7 +1,8 @@
 import React from 'react';
 
-import { StyleSheet, View, Text, TouchableOpacity, FlatList } from 'react-native';
-import Card from '../components/Card/Card';
+import { StyleSheet, View, Text, FlatList } from 'react-native';
+import CustomButton from '../components/Button/Button';
+import CartItem from '../components/CartItem/CartItem';
 
 const CartScreen = ({ handleShowCartScreen, cartItems, setCartItems }) => {
   const handleEndRequest = () => {
@@ -12,7 +13,6 @@ const CartScreen = ({ handleShowCartScreen, cartItems, setCartItems }) => {
   const getTotal = () => {
     let total = 0;
     cartItems.map((item) => (total += item.price * item.quantity));
-    console.log(total);
     return total;
   };
 
@@ -22,23 +22,17 @@ const CartScreen = ({ handleShowCartScreen, cartItems, setCartItems }) => {
 
       <FlatList
         data={cartItems}
-        renderItem={(data) => (
-          <Card style={styles.item}>
-            <Text>
-              {data.item.name} x{data.item.quantity}
-            </Text>
-            <Text>{data.item.price * data.item.quantity}</Text>
-          </Card>
-        )}
+        renderItem={(data) => <CartItem {...data.item} />}
         keyExtractor={(item) => item.id}
         style={styles.flatList}
+        contentContainerStyle={styles.containerFlatList}
       />
       <Text style={styles.total}>Total del pedido: $ {getTotal()}</Text>
-      <TouchableOpacity onPress={handleEndRequest}>
-        <Card style={styles.button}>
-          <Text style={styles.buttonText}>Finalizar Pedido</Text>
-        </Card>
-      </TouchableOpacity>
+
+      <View style={styles.buttonsContainer}>
+        {/* <CustomButton text='Volver' style={styles.button} /> */}
+        <CustomButton text='Finalizar Pedido' style={styles.button} onPress={handleEndRequest} />
+      </View>
     </View>
   );
 };
@@ -54,18 +48,15 @@ const styles = StyleSheet.create({
   flatList: {
     width: '100%',
     height: '65%',
-  },
-  item: {
     padding: 10,
-    width: '90%',
-    margin: 10,
+  },
+  buttonsContainer: {
+    flexDirection: 'row',
   },
   button: {
     padding: 10,
-    width: '50%',
+    width: '40%',
     height: 50,
-    backgroundColor: '#CCC',
-    alignSelf: 'center',
     marginVertical: 20,
     alignItems: 'center',
     justifyContent: 'center',

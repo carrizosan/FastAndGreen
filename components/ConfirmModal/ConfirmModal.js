@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Modal, Text, StyleSheet, TouchableOpacity, View, Pressable, Alert } from 'react-native';
+import { Modal, Text, StyleSheet, TouchableOpacity, View } from 'react-native';
 
 const ConfirmModal = ({ modalVisible, title, text, setModalVisible, handleDeleteItem }) => {
   return (
